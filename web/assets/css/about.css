@@ -1,0 +1,178 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : May 8, 2023, 12:34:15 PM
+    Author     : vivo
+*/
+.slider-item {
+    position: relative;
+    min-height: 90vh;
+    
+   
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    top: -0.8cm;
+}
+/*header and paragraph styles*/
+.slider-item .item-inner h5{
+    font-family:'Trade Gothic LT Pro', 'Trade Gothic LT Pro';
+    letter-spacing: 2px;
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    display: inline-block;
+    
+        
+   
+}
+.slider-item .item-inner h1{
+    font-size: 50px;
+    margin-bottom: 20px;
+    color: black;
+    font-family: Times New Roman,Times,serif;
+
+    font-weight: 900;
+    
+}
+
+    h1,h5{
+        margin-top: -5px;
+        
+        
+    }
+.wrapper{
+    width: 40%;
+    text-align: left;
+    position: relative;
+    top: 6cm;
+    left: 2cm;
+}
+
+.home4{
+    display: flex;
+    background-color: #f7f7f7;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    
+}
+.home4a img{
+    width: 500px;
+    height: 500px;
+    position: relative;
+    right: 4cm ;
+}
+
+.home4b{
+    text-align: center;
+
+}
+.home4b h2{
+    position: relative;
+    left: 120px;
+    margin-top: 50px;
+    font-size: 2.2rem;
+    letter-spacing: .3125rem;
+    font-family: Times New Roman,Times,serif;
+    font-weight: 100;
+    color: #000;
+    line-height: 1.25;
+    text-transform: uppercase;
+    width: 70%;
+    text-align: left;
+}
+.home4hr{
+    width: 40%;
+  position: relative;
+  left: 230px;
+}
+.home4b p{
+    font-size: 18px;
+    line-height: 1.66;
+    color: #262626;
+    letter-spacing: .03125rem;
+    font-family: Arial,Helvetica,sans-serif;
+    width: 70%;
+    margin-left: 120px;
+    margin-top: 40px;
+    font-size: 18px;
+    line-height: 1.66;
+    font-weight: 100;
+    text-align: left;
+}
+.home9{
+    position: relative;
+}
+.home9a h1{
+    font-size: 3rem;
+    letter-spacing: .3125rem;
+    width: 100%;
+    margin-top: 15px;
+    font-family: Times New Roman,Times,serif;
+    color: #000;
+    line-height: 1.25;
+    text-transform: uppercase;
+    font-weight: 100;
+    text-align: center; 
+    margin-bottom: 30px;
+}
+.home9 h2{
+    font-family: Times New Roman,Times,serif;
+    color: #000;
+    text-align: center;
+    margin-bottom: 40px;
+}
+.home9b{
+    background-color: #f5f5f5;
+}
+.home9c {
+    column-count: 3;
+    column-gap: 1.875rem;
+     margin-left: 60px;
+    font-size: 20px;
+    width: 90%;
+    margin-bottom: 70px;
+    padding-bottom: 60px;
+    padding-top: 20px;
+}
+.home9c h3{
+    font-family: Arial,Helvetica,sans-serif;
+    color: #000;
+    text-transform: uppercase;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .0625rem;
+    line-height: 1.6;
+}
+.home9c p{
+    font-size: 18px;
+    color: #262626;
+}
+.home9c h3, p{
+    margin-left: 40px;
+}
+.home91{
+    margin-top: 35px;
+}
+.home9c i{
+    font-size: 23px;
+    margin-right: 4px;
+}
+
+.VendorText h1{
+    font-family: Arial,Helvetica,sans-serif;
+    color: #000;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: .0625rem;
+    line-height: 1.6;
+    text-align: center;
+}
+.VendorText hr{
+    width: 40%;
+}
+
