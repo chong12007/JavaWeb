@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Purchase.findByTotalPrice", query = "SELECT p FROM Purchase p WHERE p.totalPrice = :totalPrice"),
     @NamedQuery(name = "Purchase.findByShippingAddress", query = "SELECT p FROM Purchase p WHERE p.shippingAddress = :shippingAddress"),
     @NamedQuery(name = "Purchase.findByStatus", query = "SELECT p FROM Purchase p WHERE p.status = :status"),
-    @NamedQuery(name = "Purchase.findByPurchaseHistoryId", query = "SELECT p FROM Purchase p WHERE p.purchaseHistoryId = :purchaseHistoryId"),
+    @NamedQuery(name = "Purchase.findByPurchaseHistoryProductId", query = "SELECT p FROM Purchase p WHERE p.purchaseHistoryProductId = :purchaseHistoryProductId"),
     @NamedQuery(name = "Purchase.findByCustomerId", query = "SELECT p FROM Purchase p WHERE p.customerId = :customerId")})
 public class Purchase implements Serializable {
 
@@ -51,8 +51,8 @@ public class Purchase implements Serializable {
     @Size(max = 100)
     @Column(name = "STATUS")
     private String status;
-    @Column(name = "PURCHASE_HISTORY_ID")
-    private Integer purchaseHistoryId;
+    @Column(name = "PURCHASE_HISTORY_PRODUCT_ID")
+    private Integer purchaseHistoryProductId;
     @Column(name = "CUSTOMER_ID")
     private Integer customerId;
 
@@ -62,6 +62,17 @@ public class Purchase implements Serializable {
     public Purchase(Integer purchaseId) {
         this.purchaseId = purchaseId;
     }
+
+    public Purchase(Integer purchaseId, double totalPrice, String shippingAddress, String status, Integer purchaseHistoryProductId, Integer customerId) {
+        this.purchaseId = purchaseId;
+        this.totalPrice = totalPrice;
+        this.shippingAddress = shippingAddress;
+        this.status = status;
+        this.purchaseHistoryProductId = purchaseHistoryProductId;
+        this.customerId = customerId;
+    }
+    
+    
 
     public Purchase(Integer purchaseId, double totalPrice, String shippingAddress) {
         this.purchaseId = purchaseId;
@@ -101,12 +112,12 @@ public class Purchase implements Serializable {
         this.status = status;
     }
 
-    public Integer getPurchaseHistoryId() {
-        return purchaseHistoryId;
+    public Integer getPurchaseHistoryProductId() {
+        return purchaseHistoryProductId;
     }
 
-    public void setPurchaseHistoryId(Integer purchaseHistoryId) {
-        this.purchaseHistoryId = purchaseHistoryId;
+    public void setPurchaseHistoryProductId(Integer purchaseHistoryProductId) {
+        this.purchaseHistoryProductId = purchaseHistoryProductId;
     }
 
     public Integer getCustomerId() {

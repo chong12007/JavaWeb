@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PurchaseHistory.findByQuantity", query = "SELECT p FROM PurchaseHistory p WHERE p.quantity = :quantity"),
     @NamedQuery(name = "PurchaseHistory.findByPrice", query = "SELECT p FROM PurchaseHistory p WHERE p.price = :price"),
     @NamedQuery(name = "PurchaseHistory.findByDescription", query = "SELECT p FROM PurchaseHistory p WHERE p.description = :description"),
-    @NamedQuery(name = "PurchaseHistory.findByImage", query = "SELECT p FROM PurchaseHistory p WHERE p.image = :image"),
     @NamedQuery(name = "PurchaseHistory.findByPurchaseddate", query = "SELECT p FROM PurchaseHistory p WHERE p.purchaseddate = :purchaseddate")})
 public class PurchaseHistory implements Serializable {
 
@@ -61,9 +60,6 @@ public class PurchaseHistory implements Serializable {
     @Size(max = 500)
     @Column(name = "DESCRIPTION")
     private String description;
-    @Size(max = 10000)
-    @Column(name = "IMAGE")
-    private String image;
     @Column(name = "PURCHASEDDATE")
     @Temporal(TemporalType.TIME)
     private Date purchaseddate;
@@ -81,6 +77,18 @@ public class PurchaseHistory implements Serializable {
         this.quantity = quantity;
     }
 
+    public PurchaseHistory(Integer purchaseHistoryId, Integer productId, String name, int quantity, Double price, String description, Date purchaseddate) {
+        this.purchaseHistoryId = purchaseHistoryId;
+        this.productId = productId;
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+        this.description = description;
+        this.purchaseddate = purchaseddate;
+    }
+
+    
+    
     public Integer getPurchaseHistoryId() {
         return purchaseHistoryId;
     }
@@ -127,14 +135,6 @@ public class PurchaseHistory implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public Date getPurchaseddate() {

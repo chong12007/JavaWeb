@@ -37,7 +37,8 @@ public class CheckOutServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        int custId = (int) session.getAttribute("custId");
+       
+        int custId = (int) session.getAttribute("customerId");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phoneNum = request.getParameter("phoneNum");
@@ -53,6 +54,7 @@ public class CheckOutServlet extends HttpServlet {
         double fee = Double.parseDouble(feeStr);
         String subTotalStr = request.getParameter("totalPrice");
         double subTotal = Double.parseDouble(subTotalStr);
+        session.setAttribute("totalPrice", subTotal);
 
         
 

@@ -55,6 +55,7 @@
 
                         <% for (Product product : productListCart) {
 
+                        if(product.getQuantity() >0){
                                 double totalProductPrice = 0;
 
                         %>
@@ -62,7 +63,7 @@
 
                         <tr>
                             <td onclick ="window.location.href = '../GetProduct?pid=<%= product.getProductId()%>&action=viewCustomer';" class="align-middle">
-                                <img src="<%=product.getImgPath()%>" alt="" style="width: 100px;height: 100px;"> Product Name
+                                <img src="<%=product.getImgPath()%>" alt="" style="width: 100px;height: 100px;"> <%=product.getName()%>
                             </td>
 
                             <td class="align-middle" id="quantity-price-<%= product.getProductId()%>">
@@ -120,7 +121,7 @@
 
                     </tr>
                     <%
-                            total += totalProductPrice;
+                            total += totalProductPrice;}
                         }%>
 
                     </tbody>

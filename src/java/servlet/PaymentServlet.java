@@ -5,9 +5,14 @@
 package servlet;
 
 import entity.Cart;
+import entity.CartProduct;
 import entity.Customer;
+import entity.Inventory;
+import entity.Payment;
 import entity.Product;
 import entity.Purchase;
+import entity.PurchaseHistory;
+import entity.PurchaseHistoryProduct;
 //import entity.PurchaseHistory;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,88 +45,296 @@ import javax.transaction.UserTransaction;
  */
 public class PaymentServlet extends HttpServlet {
 
-     @PersistenceContext
+    @PersistenceContext
     EntityManager em;
     @Resource
     UserTransaction utx;
-   
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     
+
+        HttpSession session = request.getSession();
+
+        String paymentMethod = request.getParameter("payment");
+        String address = (String) session.getAttribute("address");
+        int cartId = (int) session.getAttribute("cartId");
+        int custId = (int) session.getAttribute("customerId");
+        double totalPrice = (double) session.getAttribute("totalPrice");
+
+        int purchaseHistoryId = 0;
+        Query query = em.createNamedQuery("PurchaseHistory.findAll");
+        List<PurchaseHistory> purchaseHistoryList = query.getResultList();
+        for (PurchaseHistory purchaseHistory : purchaseHistoryList) {
+            purchaseHistoryId = purchaseHistory.getPurchaseHistoryId();
+        }
+
+        if (purchaseHistoryId == 0)
+            purchaseHistoryId = 1;
+
+        boolean continueLoop = true;
+
+        while (continueLoop) {
+            // check if the ID exists in the database
+            if (em.find(PurchaseHistory.class, purchaseHistoryId) == null) {
+                // ID does not exist, break out of the loop
+                continueLoop = false;
+                break;
+            }
+
+            // ID exists, increment and try again
+            purchaseHistoryId += 1;
+        }
+
+        LocalTime localTime = LocalTime.now();
+        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(), localTime);
+        Date createdDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+        List<PurchaseHistory> addPurchaseHistorys = new ArrayList<>();
+        List<Product> productListCart = (List<Product>) session.getAttribute("productListCart");
         
-//        HttpSession session = request.getSession();
-//
-//        String address = (String) session.getAttribute("address");
-//        int cartId = (int) session.getAttribute("cartId");
-//        int custId = (int) session.getAttribute("custId");
-//        double totalPrice = (double) session.getAttribute("totalPrice");
-//
-//        int purchaseHistoryId = 0;
-//        Query query = em.createNamedQuery("PurchaseHistory.findAll");
-//        List<PurchaseHistory> purchaseHistoryList = query.getResultList();
-//        for(PurchaseHistory purchaseHistory: purchaseHistoryList){
-//            purchaseHistoryId = purchaseHistory.getPurchaseHistoryId();
-//        }
-//        
-//        if(purchaseHistoryId == 0)
-//            purchaseHistoryId =1;
-//        
-//        boolean continueLoop = true;
-//        
-//       while (continueLoop) {
-//            // check if the ID exists in the database
-//            if (em.find(PurchaseHistory.class, purchaseHistoryId) == null) {
-//                // ID does not exist, break out of the loop
-//                continueLoop = false;
-//                break;
-//            }
-//
-//            // ID exists, increment and try again
-//            purchaseHistoryId += 1;
-//        }
-//       
-//        LocalTime localTime = LocalTime.now();
-//        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(), localTime);
-//        Date createdDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-//
-//        
-//        List<PurchaseHistory> addPurchaseHistorys = new ArrayList<>();
-//        List<Product> productListCart = (List<Product>) session.getAttribute("productListCart");
-//        for(PurchaseHistory ph : purchaseHistoryList)
-//        {
-//            for(Product product: productListCart){
-//                ph.setPurchaseHistoryId(purchaseHistoryId);
-//                ph.setProductId(product.getProductId());
-//                ph.setName(product.getName());
-//                ph.setQuantity(product.getQuantity());
-//                ph.setPrice(product.getPrice());
-//                ph.setImage(product.getImgPath());
-//                ph.setPurchaseddate(createdDate);
-//                addPurchaseHistorys.add(ph);
-//                purchaseHistoryId += 1;
-//            }
-//             
-//        }
-//       
-//                
-//
-//      
-//
-//        try {
-//            utx.begin();
-//            for(PurchaseHistory addPh: addPurchaseHistorys){
-//                em.persist(addPh);
-//            }            
-//            utx.commit();
-//        } catch (NotSupportedException notSupportedException) {
-//        } catch (SystemException systemException) {
-//        } catch (RollbackException rollbackException) {
-//        } catch (HeuristicMixedException heuristicMixedException) {
-//        } catch (HeuristicRollbackException heuristicRollbackException) {
-//        } catch (SecurityException securityException) {
-//        } catch (IllegalStateException illegalStateException) {
-//        }
-//    
+
+        for (Product product : productListCart) {
+            PurchaseHistory ph = new PurchaseHistory(
+                    purchaseHistoryId,
+                    product.getProductId(),
+                    product.getName(),
+                    product.getQuantity(),
+                    product.getPrice(),
+                    product.getDescription(),
+                    createdDate);
+            addPurchaseHistorys.add(ph);
+            purchaseHistoryId++;
+        }
+
+        try {
+
+            for (PurchaseHistory addPh : addPurchaseHistorys) {
+                utx.begin();
+                em.persist(addPh);
+                utx.commit();
+            }
+
+        } catch (NotSupportedException notSupportedException) {
+        } catch (SystemException systemException) {
+        } catch (RollbackException rollbackException) {
+        } catch (HeuristicMixedException heuristicMixedException) {
+        } catch (HeuristicRollbackException heuristicRollbackException) {
+        } catch (SecurityException securityException) {
+        } catch (IllegalStateException illegalStateException) {
+        }
+
+        int purchaseId = 0;
+        query = em.createNamedQuery("Purchase.findAll");
+        List<Purchase> purchaseList = query.getResultList();
+        for (Purchase purchase : purchaseList) {
+            purchaseId = purchase.getPurchaseHistoryProductId();
+        }
+
+        if (purchaseId == 0)
+            purchaseId = 1;
+
+        boolean continueLoopPurchase = true;
+
+        while (continueLoopPurchase) {
+            // check if the ID exists in the database
+            if (em.find(Purchase.class, purchaseId) == null) {
+                // ID does not exist, break out of the loop
+                continueLoopPurchase = false;
+                break;
+            }
+
+            // ID exists, increment and try again
+            purchaseId += 1;
+        }
+
+        try {
+            utx.begin();
+            Purchase addPuchase = new Purchase(
+                    purchaseId,
+                    totalPrice,
+                    address,
+                    "Prepared to Ship",
+                    0,
+                    custId);
+            em.persist(addPuchase);
+            utx.commit();
+        } catch (NotSupportedException notSupportedException) {
+        } catch (SystemException systemException) {
+        } catch (RollbackException rollbackException) {
+        } catch (HeuristicMixedException heuristicMixedException) {
+        } catch (HeuristicRollbackException heuristicRollbackException) {
+        } catch (SecurityException securityException) {
+        } catch (IllegalStateException illegalStateException) {
+        }
+
+        int id = 0;
+        int phdId = 0;
+        query = em.createNamedQuery("PurchaseHistoryProduct.findAll");
+        List<PurchaseHistoryProduct> phdList = query.getResultList();
+        for (PurchaseHistoryProduct phd : phdList) {
+            id = phd.getId();
+            phdId = phd.getPurchaseHistoryProductId();
+        }
+
+        if (id == 0)
+            id = 1;
+
+        if (phdId == 0)
+            phdId = 1;
+
+        boolean continueLoopPhd = true;
+
+        while (continueLoopPhd) {
+            // check if the ID exists in the database
+            if (em.find(PurchaseHistoryProduct.class, purchaseId) == null) {
+                // ID does not exist, break out of the loop
+                continueLoopPhd = false;
+                break;
+            }
+
+            // ID exists, increment and try again
+            id += 1;
+            phdId++;
+        }
+
+        List<PurchaseHistoryProduct> phpList = new ArrayList<>();
+
+     
+
+            for (PurchaseHistory ph : addPurchaseHistorys) {
+                PurchaseHistoryProduct php = new PurchaseHistoryProduct(
+                        id,
+                        phdId,
+                        purchaseId,
+                        ph.getPurchaseHistoryId()
+                );
+
+                phpList.add(php);
+                id++;
+            }
+           
+        
+
+        for (PurchaseHistoryProduct addPhp : phpList) {
+            try {
+                utx.begin();
+                em.persist(addPhp);
+                utx.commit();
+
+            } catch (NotSupportedException notSupportedException) {
+            } catch (SystemException systemException) {
+            } catch (RollbackException rollbackException) {
+            } catch (HeuristicMixedException heuristicMixedException) {
+            } catch (HeuristicRollbackException heuristicRollbackException) {
+            } catch (SecurityException securityException) {
+            } catch (IllegalStateException illegalStateException) {
+            }
+        }
+
+        try {
+            utx.begin();
+            Purchase addPurchase = em.find(Purchase.class, purchaseId);
+            addPurchase.setPurchaseHistoryProductId(purchaseHistoryId);
+            em.merge(addPurchase);
+            utx.commit();
+        } catch (NotSupportedException notSupportedException) {
+        } catch (SystemException systemException) {
+        } catch (RollbackException rollbackException) {
+        } catch (HeuristicMixedException heuristicMixedException) {
+        } catch (HeuristicRollbackException heuristicRollbackException) {
+        } catch (SecurityException securityException) {
+        } catch (IllegalStateException illegalStateException) {
+        }
+
+        int paymentId = 0;
+
+        query = em.createNamedQuery("Payment.findAll");
+        List<Payment> paymentList = query.getResultList();
+        for (Payment payment : paymentList) {
+            paymentId = payment.getPaymentId();
+        }
+
+        if (paymentId == 0)
+            paymentId = 1;
+
+        boolean continueLoopPayment = true;
+
+        while (continueLoopPayment) {
+            // check if the ID exists in the database
+            if (em.find(Payment.class, paymentId) == null) {
+                // ID does not exist, break out of the loop
+                continueLoopPayment = false;
+                break;
+            }
+
+            // ID exists, increment and try again
+            paymentId += 1;
+
+        }
+
+        try {
+            utx.begin();
+            Payment addPayment = new Payment(
+                    paymentId,
+                    createdDate,
+                    paymentMethod,
+                    totalPrice,
+                    purchaseId);
+            em.persist(addPayment);
+            utx.commit();
+        } catch (NotSupportedException notSupportedException) {
+        } catch (SystemException systemException) {
+        } catch (RollbackException rollbackException) {
+        } catch (HeuristicMixedException heuristicMixedException) {
+        } catch (HeuristicRollbackException heuristicRollbackException) {
+        } catch (SecurityException securityException) {
+        } catch (IllegalStateException illegalStateException) {
+        }
+
+        query = em.createNamedQuery("Inventory.findAll");
+        List<Inventory> inventoryList = query.getResultList();
+        for (Product product : productListCart) {
+            for (Inventory i : inventoryList) {
+                if (product.getProductId() == i.getProductId().getProductId()) {
+                    i.setQuantity(i.getQuantity() - product.getQuantity());
+                    try {
+                        utx.begin();
+                        em.merge(i);
+                        utx.commit();
+                    } catch (NotSupportedException notSupportedException) {
+                    } catch (SystemException systemException) {
+                    } catch (RollbackException rollbackException) {
+                    } catch (HeuristicMixedException heuristicMixedException) {
+                    } catch (HeuristicRollbackException heuristicRollbackException) {
+                    } catch (SecurityException securityException) {
+                    } catch (IllegalStateException illegalStateException) {
+                    }
+                }
+            }
+        }
+
+        query = em.createNamedQuery("CartProduct.findAll");
+        List<CartProduct> cpList = query.getResultList();
+        for (Product product : productListCart) {
+            for (CartProduct cp : cpList) {
+                if (product.getProductId() == cp.getProductId())
+                    cp.setQuantity(0);
+                try {
+                    utx.begin();
+                    em.merge(cp);
+                    utx.commit();
+                } catch (NotSupportedException notSupportedException) {
+                } catch (SystemException systemException) {
+                } catch (RollbackException rollbackException) {
+                } catch (HeuristicMixedException heuristicMixedException) {
+                } catch (HeuristicRollbackException heuristicRollbackException) {
+                } catch (SecurityException securityException) {
+                } catch (IllegalStateException illegalStateException) {
+                }
+            }
+        }
+
+        response.sendRedirect("Customer/OrderCompleted.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

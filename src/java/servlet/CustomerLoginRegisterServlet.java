@@ -129,10 +129,14 @@ public class CustomerLoginRegisterServlet extends HttpServlet {
         if(custId == 0)
             custId =1;
         
-       
-        query = em.createNamedQuery("Cart.countAll");
-        Long totalCartId = (Long) query.getSingleResult();
-        int cartLatestId = totalCartId.intValue();
+       int cartId =0;
+     for(Cart c: cartList){
+         cartId = c.getCartId();
+     }
+     
+     if(cartId ==0)
+         cartId =1;
+     
         boolean continueLoop = true;
         boolean continueLoopCart = true;
 
@@ -152,7 +156,7 @@ public class CustomerLoginRegisterServlet extends HttpServlet {
 
         do {
             // check if the ID exists in the database
-            if (em.find(Cart.class, cartLatestId) == null)
+            if (em.find(Cart.class, cartId) == null)
              {
                  // ID does not exist, break out of the loop
                 continueLoopCart = false;
@@ -160,7 +164,7 @@ public class CustomerLoginRegisterServlet extends HttpServlet {
             }
 
             // ID exists, increment and try again
-            cartLatestId++;
+            cartId++;
         } while (continueLoopCart);
 
         try {
@@ -172,7 +176,7 @@ public class CustomerLoginRegisterServlet extends HttpServlet {
                     password,
                     phoneNum,
                     address);
-            Cart newCart = new Cart(cartLatestId, newCustomer);
+            Cart newCart = new Cart(cartId, newCustomer);
             em.persist(newCustomer);
             em.persist(newCart);
             utx.commit();

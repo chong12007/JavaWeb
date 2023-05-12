@@ -64,6 +64,16 @@ public class Payment implements Serializable {
         return paymentId;
     }
 
+    public Payment(Integer paymentId, Date paymentDate, String paymentMethod, Double paymentAmount, Integer purchaseId) {
+        this.paymentId = paymentId;
+        this.paymentDate = paymentDate;
+        this.paymentMethod = paymentMethod;
+        this.paymentAmount = paymentAmount;
+        this.purchaseId = purchaseId;
+    }
+
+    
+    
     public void setPaymentId(Integer paymentId) {
         this.paymentId = paymentId;
     }

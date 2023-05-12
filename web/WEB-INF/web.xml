@@ -84,6 +84,14 @@
         <servlet-name>PaymentServlet</servlet-name>
         <servlet-class>servlet.PaymentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetFilterResult</servlet-name>
+        <servlet-class>servlet.GetFilterResult</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getFilterResult</servlet-name>
+        <servlet-class>servlet.getFilterResult</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>StaffDashboard</servlet-name>
         <url-pattern>/StaffDashboard</url-pattern>
@@ -167,6 +175,14 @@
     <servlet-mapping>
         <servlet-name>PaymentServlet</servlet-name>
         <url-pattern>/PaymentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetFilterResult</servlet-name>
+        <url-pattern>/GetFilterResult</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getFilterResult</servlet-name>
+        <url-pattern>/getFilterResult</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

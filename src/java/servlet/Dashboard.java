@@ -2,9 +2,11 @@ package servlet;
 
 import entity.Customer;
 import entity.Inventory;
+import entity.Payment;
 import entity.Product;
 import entity.ProductReview;
 import entity.Purchase;
+import entity.PurchaseHistory;
 import entity.Staff;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,15 +36,15 @@ public class Dashboard extends HttpServlet {
 
          Query query = em.createNamedQuery("Product.findAll");
         List<Product> productList = query.getResultList();
-//         query = em.createNamedQuery("Payment.findAll");
-//        List<Payment> paymentList = query.getResultList();
+         query = em.createNamedQuery("Payment.findAll");
+        List<Payment> paymentList = query.getResultList();
        
         query = em.createNamedQuery("Inventory.findAll");
         List<Inventory> inventoryList = query.getResultList();
         query = em.createNamedQuery("ProductReview.findAll");
         List<ProductReview> productReviewList = query.getResultList();
-//        query = em.createNamedQuery("PurchaseHistory.findAll");
-//        List<PurchaseHistory> purchaseHistoryList = query.getResultList();
+        query = em.createNamedQuery("PurchaseHistory.findAll");
+        List<PurchaseHistory> purchaseHistoryList = query.getResultList();
         query = em.createNamedQuery("Staff.findAll");
         List<Staff> staffList = query.getResultList();
         query = em.createNamedQuery("Purchase.findAll");
@@ -50,11 +52,11 @@ public class Dashboard extends HttpServlet {
         query = em.createNamedQuery("Customer.findAll");
         List<Customer> customerList = query.getResultList();
 
-//        session.setAttribute("paymentList", paymentList);
+        session.setAttribute("paymentList", paymentList);
         session.setAttribute("productList", productList);
         session.setAttribute("inventoryList", inventoryList);
         session.setAttribute("productReviewList", productReviewList);
-//        session.setAttribute("purchaseHistoryList", purchaseHistoryList);
+        session.setAttribute("purchaseHistoryList", purchaseHistoryList);
         session.setAttribute("staffList", staffList);
         session.setAttribute("purchaseList", purchaseList);
         session.setAttribute("customerList", customerList);

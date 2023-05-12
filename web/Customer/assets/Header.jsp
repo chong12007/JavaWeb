@@ -47,7 +47,7 @@
 
 
                             <a href="customerDashboard.jsp"><button class="dropdown-item" type="button">My Account</button></a>
-                             <a href="../GetProduct?action=cart"><button class="dropdown-item" type="button">My Cart</button></a>
+                             <a href="../GetCart"><button class="dropdown-item" type="button">My Cart</button></a>
                             <a href="../SignOutServlet"><button class="dropdown-item" type="button">Sign Out</button></a>
 
 
@@ -128,7 +128,7 @@
                      
                          <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                               
-                                <a href="../GetProduct?action=cart" class="btn px-0 ml-3">
+                                <a href="../GetCart" class="btn px-0 ml-3">
                                     <i class="fas fa-shopping-cart text-primary"></i>
                                     <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"></span>
                                 </a>
