@@ -61,6 +61,41 @@ public class PaymentServlet extends HttpServlet {
         int custId = (int) session.getAttribute("customerId");
         double totalPrice = (double) session.getAttribute("totalPrice");
 
+        if (paymentMethod.contains("Card")) {
+            String creditCardOwner = request.getParameter("creditName");
+            String cvv = request.getParameter("cvv");
+            String cardNum = request.getParameter("cardNum");
+            String expiry = request.getParameter("expiry");
+            String expiryYear = request.getParameter("expiryYear");
+
+            // Validate credit card number
+            boolean isValidCreditCard = false;
+            if (cardNum.matches("^\\d{13,16}$")) {
+                int[] digits = new int[cardNum.length()];
+                for (int i = 0; i < cardNum.length(); i++) {
+                    digits[i] = Integer.parseInt(cardNum.substring(i, i + 1));
+                }
+                for (int i = digits.length - 2; i >= 0; i -= 2) {
+                    int j = digits[i];
+                    j *= 2;
+                    if (j > 9)
+                        j -= 9;
+                    digits[i] = j;
+                }
+                int sum = 0;
+                for (int i = 0; i < digits.length; i++) {
+                    sum += digits[i];
+                }
+                isValidCreditCard = (sum % 10 == 0);
+            }
+
+            if (!isValidCreditCard) {
+                session.setAttribute("ErrorCardMsg", "Invalid Card Information Please only Key in 16 digit");
+                response.sendRedirect("Customer/Payment.jsp");
+                return;
+            }
+        }
+
         int purchaseHistoryId = 0;
         Query query = em.createNamedQuery("PurchaseHistory.findAll");
         List<PurchaseHistory> purchaseHistoryList = query.getResultList();
@@ -91,19 +126,21 @@ public class PaymentServlet extends HttpServlet {
 
         List<PurchaseHistory> addPurchaseHistorys = new ArrayList<>();
         List<Product> productListCart = (List<Product>) session.getAttribute("productListCart");
-        
 
         for (Product product : productListCart) {
-            PurchaseHistory ph = new PurchaseHistory(
-                    purchaseHistoryId,
-                    product.getProductId(),
-                    product.getName(),
-                    product.getQuantity(),
-                    product.getPrice(),
-                    product.getDescription(),
-                    createdDate);
-            addPurchaseHistorys.add(ph);
-            purchaseHistoryId++;
+            if (product.getQuantity() > 0) {
+                PurchaseHistory ph = new PurchaseHistory(
+                        purchaseHistoryId,
+                        product.getProductId(),
+                        product.getName(),
+                        product.getQuantity(),
+                        product.getPrice(),
+                        product.getDescription(),
+                        createdDate);
+                addPurchaseHistorys.add(ph);
+                purchaseHistoryId++;
+            }
+
         }
 
         try {
@@ -186,7 +223,7 @@ public class PaymentServlet extends HttpServlet {
 
         while (continueLoopPhd) {
             // check if the ID exists in the database
-            if (em.find(PurchaseHistoryProduct.class, purchaseId) == null) {
+            if (em.find(PurchaseHistoryProduct.class, id) == null) {
                 // ID does not exist, break out of the loop
                 continueLoopPhd = false;
                 break;
@@ -199,21 +236,17 @@ public class PaymentServlet extends HttpServlet {
 
         List<PurchaseHistoryProduct> phpList = new ArrayList<>();
 
-     
+        for (PurchaseHistory ph : addPurchaseHistorys) {
+            PurchaseHistoryProduct php = new PurchaseHistoryProduct(
+                    id,
+                    phdId,
+                    purchaseId,
+                    ph.getPurchaseHistoryId()
+            );
 
-            for (PurchaseHistory ph : addPurchaseHistorys) {
-                PurchaseHistoryProduct php = new PurchaseHistoryProduct(
-                        id,
-                        phdId,
-                        purchaseId,
-                        ph.getPurchaseHistoryId()
-                );
-
-                phpList.add(php);
-                id++;
-            }
-           
-        
+            phpList.add(php);
+            id++;
+        }
 
         for (PurchaseHistoryProduct addPhp : phpList) {
             try {
@@ -323,6 +356,8 @@ public class PaymentServlet extends HttpServlet {
                     utx.begin();
                     em.merge(cp);
                     utx.commit();
+
+                    session.removeAttribute("productListCart");
                 } catch (NotSupportedException notSupportedException) {
                 } catch (SystemException systemException) {
                 } catch (RollbackException rollbackException) {

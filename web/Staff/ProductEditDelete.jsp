@@ -72,7 +72,7 @@
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="example-text-input" class="form-control-label">Price<Price>/label>
+                                                <label for="example-text-input" class="form-control-label">Price<Price></label>
                                                         <input class="form-control" type="number" step="0.01" onwheel="return false;" min="0" name="price" value="${productModify.price}">
                                                         </div>
                                                         </div>
@@ -200,9 +200,9 @@
                                                                                     <input type="hidden" name="action" value="delete">
 
                                                                                     <% if (p.getQuantity() > 0) {%>
-                                                                                    <input type="submit" value="Delete" class="btn btn-danger btn-lg float-end">
-                                                                                    <%} else {%>
                                                                                     <input type="submit" value="Delete" class="btn btn-danger btn-lg float-end" disabled>
+                                                                                    <%} else {%>
+                                                                                    <input type="submit" value="Delete" class="btn btn-danger btn-lg float-end" >
 
                                                                                     <%}%>
                                                                                     <input type="button" class="btn btn-default btn-lg float-end" value="Cancel" onclick="location.href = 'Product_Tables.jsp'">

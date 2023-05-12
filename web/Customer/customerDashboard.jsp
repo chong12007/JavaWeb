@@ -57,11 +57,11 @@
                             <ul class="wraplist" style="height: auto;">	
                                 <!--          <li class="menusection">Main</li>-->
                                 <li><a href="customerDashboard.jsp"><span class="sidebar-icon"><i class="fa fa-"></i></span> <span class="menu-title">Profile</span></a></li>
-                                <li><a href="Customer_Purchased_ToShip.jsp"><span class="sidebar-icon"><i class="fa fa-"></i></span> <span class="menu-title">Product To Ship</span></a></li>
-                                <li><a href="Customer_Purchased_ToReceive.jsp"><span class="sidebar-icon"><i class="fa fa-"></i></span> <span class="menu-title">Product To Receive</span></a></li>
-                                <li><a href="Customer_Purchased_History.jsp"><span class="sidebar-icon"><i class="fa fa-"></i></span> <span class="menu-title">Product To Rate</span></a></li>
+                                <li><a href="../GetMyPurchase"><span class="sidebar-icon"><i class="fa fa-"></i></span> <span class="menu-title">Product To Ship</span></a></li>
+                                <li><a href="../GetMyPurchaseReceive"><span class="sidebar-icon"><i class="fa fa-"></i></span> <span class="menu-title">Product To Receive</span></a></li>
+                                <li><a href="../GetMyPurchase?action=history"><span class="sidebar-icon"><i class="fa fa-"></i></span> <span class="menu-title">Product To Rate</span></a></li>
                                 <li><a href="../Public/index.jsp"><span class="sidebar-icon"><i class="fa fa-"></i></span> <span class="menu-title">Sign Out</span></a></li>
-
+                                   <li><a href="../GetMyPurchase"><span class="sidebar-icon"><i class="fa fa-"></i></span> <span class="menu-title">Sign Out</span></a></li>
                             </ul>
                         </div>
                     </div>
@@ -81,23 +81,29 @@
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <h4 class="text-left">Profile Settings</h4>
                                     </div>
-                                    <form method="post" action="">
+                                    <form method="post" action="../CustomerEdit">
+                                        <% if (session.getAttribute("errorEmail") != null) {%>
+                                        <div style="color: red; text-align: center;""><%= session.getAttribute("errorEmail")%></div>
+                                        <% }%>
+                                        <% if (session.getAttribute("errorPhoneNumber") != null) {%>
+                                        <div style="color: red; text-align: center;""><%= session.getAttribute("errorPhoneNumber")%></div>
+                                        <% }%>
                                         <div class="row mt-2">
-                                            <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"  value="${cust.name}"></div>
+                                            <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"  value="${cust.name}" name="username"></div>
                                             <!--                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" value="" placeholder="surname"></div>-->
                                         </div>
                                         <div class="row mt-3">
-                                            <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control"  value="${cust.phonenumber}"></div>
+                                            <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control"  value="${cust.phonenumber}" name="phoneNum"></div>
 
-                                            <div class="col-md-12"><label class="labels">Address</label><textarea id="id" class=" form-control" name="name" rows="5" cols="10">${cust.address}</textarea></div>
-                                            <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control"  value="${cust.email}"></div>
+                                            <div class="col-md-12"><label class="labels">Address</label><textarea id="id" class=" form-control" name="name" rows="5" cols="10" name="address">${cust.address}</textarea></div>
+                                            <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control"  value="${cust.email}" name="email"></div>
 
-                                            <div class="col-md-12"><label class="labels">Password</label><input type="password" class="form-control"  value="${cust.password}"></div>
+                                            <div class="col-md-12"><label class="labels">Password</label><input type="password" class="form-control" name="password" value="${cust.password}"></div>
                                             <div class="col-md-12"><label class="labels">Confirm Password</label><input type="password" class="form-control"  value="${cust.password}"></div>
                                         </div>
 
                                         <br>
-                                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Update Profile</button></div>
+                                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Update Profile</button></div>
                                 </div>
                                 </form>
                             </div>

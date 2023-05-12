@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -42,10 +43,23 @@ public class PurchaseHistoryProduct implements Serializable {
     private Integer purchaseId;
     @Column(name = "PURCHASE_HISTORY_ID")
     private Integer purchaseHistoryId;
+    
+    @Transient
+    private String status;
 
     public PurchaseHistoryProduct() {
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    
+    
     public PurchaseHistoryProduct(Integer id) {
         this.id = id;
     }

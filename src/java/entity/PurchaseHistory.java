@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -63,9 +64,46 @@ public class PurchaseHistory implements Serializable {
     @Column(name = "PURCHASEDDATE")
     @Temporal(TemporalType.TIME)
     private Date purchaseddate;
+    
+    @Transient
+    private String status;
+    @Transient
+    private String ImgPath;
+    @Transient
+    private byte [] image;
 
     public PurchaseHistory() {
     }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+    
+    
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getImgPath() {
+        return ImgPath;
+    }
+
+    public void setImgPath(String ImgPath) {
+        this.ImgPath = ImgPath;
+    }
+    
+    
+    
+    
 
     public PurchaseHistory(Integer purchaseHistoryId) {
         this.purchaseHistoryId = purchaseHistoryId;

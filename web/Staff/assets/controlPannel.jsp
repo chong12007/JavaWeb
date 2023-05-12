@@ -53,6 +53,22 @@
          <%}%>
         
        
+          <a class="nav-link " href="User_Tables.jsp">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-single-02 fat-add text-dark  text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Customer Tables</span>
+          </a>
+        </li>
+        
+         <a class="nav-link " href="../GetPayment">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-single-02 fat-add text-dark  text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Payment Tables</span>
+          </a>
+        </li>
+         
 
    
         <li class="nav-item">

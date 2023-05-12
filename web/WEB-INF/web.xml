@@ -92,6 +92,38 @@
         <servlet-name>getFilterResult</servlet-name>
         <servlet-class>servlet.getFilterResult</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CustomerEdit</servlet-name>
+        <servlet-class>servlet.CustomerEdit</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetMyPurchase</servlet-name>
+        <servlet-class>servlet.GetMyPurchase</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetMyPurchaseReceive</servlet-name>
+        <servlet-class>servlet.GetMyPurchaseReceive</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetPurchase</servlet-name>
+        <servlet-class>servlet.GetPurchase</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetPayment</servlet-name>
+        <servlet-class>servlet.GetPayment</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetPurchaseList</servlet-name>
+        <servlet-class>servlet.GetPurchaseList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CustomerReviewServlet</servlet-name>
+        <servlet-class>servlet.CustomerReviewServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditStaffProfileServlet</servlet-name>
+        <servlet-class>servlet.EditStaffProfileServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>StaffDashboard</servlet-name>
         <url-pattern>/StaffDashboard</url-pattern>
@@ -183,6 +215,38 @@
     <servlet-mapping>
         <servlet-name>getFilterResult</servlet-name>
         <url-pattern>/getFilterResult</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerEdit</servlet-name>
+        <url-pattern>/CustomerEdit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetMyPurchase</servlet-name>
+        <url-pattern>/GetMyPurchase</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetMyPurchaseReceive</servlet-name>
+        <url-pattern>/GetMyPurchaseReceive</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetPurchase</servlet-name>
+        <url-pattern>/GetPurchase</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetPayment</servlet-name>
+        <url-pattern>/GetPayment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetPurchaseList</servlet-name>
+        <url-pattern>/GetPurchaseList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CustomerReviewServlet</servlet-name>
+        <url-pattern>/CustomerReviewServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditStaffProfileServlet</servlet-name>
+        <url-pattern>/EditStaffProfileServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

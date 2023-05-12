@@ -14,6 +14,7 @@
         double total = 0;
         double fee = 0;
         double subTotal = 0;
+        double discount =0;
     %>
 
     <head>
@@ -57,7 +58,7 @@
 
                         if(product.getQuantity() >0){
                                 double totalProductPrice = 0;
-
+                                
                         %>
 
 
@@ -154,11 +155,16 @@
                             <h6 class="font-weight-medium">RM <%=fee%></h6>
                         </div>
                     </div>
+                        
+                        
+                        
+                        
+                        
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
                             <%
-                                subTotal = total + fee;%>
+                                subTotal = (total + fee);%>
                             <h5>RM <%=subTotal%></h5>
 
                         </div>

@@ -49,7 +49,7 @@
                         <%if(action.equals("edit")) {%>
                         <div class="col-12">
 
-                            <form action="../EditProductServlet" method="POST" enctype="multipart/form-data">
+                            <form action="../AddEditDeleteStaffServlet" method="POST" >
                                 <div class="card-body px-0 pt-0 pb-2">						
                                     <h4 class="modal-title">Edit Employee </h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

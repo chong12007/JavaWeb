@@ -47,6 +47,9 @@
                         <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
                         <div class="bg-light p-30">
 
+                            <% if (session.getAttribute("ErrorCardMsg") != null) {%>
+                            <div style="color: red; text-align: center;""><%= session.getAttribute("ErrorCardMsg")%></div>
+                            <% } %>
                             <div class="form-group">
                                 <div class="custom-control custom-radio">
                                     <input type="radio" class="custom-control-input" name="payment" id="paypal" onchange="showPaymentForm('paypal')" value="MasterCard">
@@ -85,7 +88,7 @@
                                 <div class="col-md-6 form-group">
                                     <label>CVV</label><input class="form-control" type="text"  name="cvv" required></div>
                                 <div class="col-md-12 form-group">
-                                    <label>Card Number</label><input class="form-control" type="text"  name="cardNum" required></div>
+                                    <label>Card Number</label><input class="form-control" type="text"  name="cardNum" required placeholder="4111111111111111"></div>
                                 <div class="col-md-12 form-group">
                                     <label for="expiry">Expiration Date:</label>
                                     <select id="expiry" name="expiry">
@@ -124,9 +127,9 @@
                     <div id="cashOnDelivery-form" style="display:none;">
                         <!-- Bank Transfer form fields -->
                         <form method="post" action="../PaymentServlet">
-                            
+
                             <input type="hidden" name="payment" value="CashOnDelivery">
-                        <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3">Place Order</button>
+                            <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3">Place Order</button>
                         </form>
                     </div>
 
@@ -192,9 +195,9 @@
                             </div>
                             <br>
 
-                        
 
-                          
+
+
                         </div>
 
 

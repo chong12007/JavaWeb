@@ -33,6 +33,8 @@
                             <input type="search" id="form1" name="query" class="form-control" placeholder="Search  Here..." />
                             <% if (currentUrl.contains("Product")) {%>
                             <input type="hidden" name="table"  value="productTable">
+                            <%} else if (currentUrl.contains("User")) {%>
+                            <input type="hidden" name="table"  value="userTable">
                             <%} else if (currentUrl.contains("Staff")) {%>
                             <input type="hidden" name="table"  value="staffTable">
                             <%}%>

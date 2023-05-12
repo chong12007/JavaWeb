@@ -137,12 +137,13 @@
                                                                                                     <option value="out of stock">Out of Stock</option>
                                                                                                     <option value="Hidden">Hidden</option>
                                                                                                 </select>-->
-                                                <% if (product.getStatus().equals("Available")) {%>
-                                                <p class="text-sm-start font-weight-bolder mb-0 text-success"><%= product.getStatus()%></p>
+                                                <% if (product.getStatus().equals("Out Of Stock") || product.getQuantity() <=0) {%>
+                                              <p class="text-sm-start font-weight-bolder mb-0 text-danger"><%= product.getStatus()%></p>
                                                 <%} else if (product.getStatus().equals("Hidden")) {%>
                                                 <p class="text-sm-start font-weight-bolder mb-0 text-muted"><%= product.getStatus()%></p>
                                                 <%} else {%>
-                                                <p class="text-sm-start font-weight-bolder mb-0 text-danger"><%= product.getStatus()%></p>
+                                                
+                                                  <p class="text-sm-start font-weight-bolder mb-0 text-success"><%= product.getStatus()%></p>
                                                 <%}%>
                                             </td>
 

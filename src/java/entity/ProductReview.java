@@ -10,7 +10,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -33,7 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ProductReview.findByRatingStart", query = "SELECT p FROM ProductReview p WHERE p.ratingStart = :ratingStart"),
     @NamedQuery(name = "ProductReview.findByComment", query = "SELECT p FROM ProductReview p WHERE p.comment = :comment"),
     @NamedQuery(name = "ProductReview.findByCreatedtime", query = "SELECT p FROM ProductReview p WHERE p.createdtime = :createdtime"),
-    @NamedQuery(name = "ProductReview.findByProductId", query = "SELECT p FROM ProductReview p WHERE p.productId = :productId"),
     @NamedQuery(name = "ProductReview.findByCustomerId", query = "SELECT p FROM ProductReview p WHERE p.customerId = :customerId")})
 public class ProductReview implements Serializable {
 
@@ -48,20 +46,28 @@ public class ProductReview implements Serializable {
     @Size(max = 50)
     @Column(name = "COMMENT")
     private String comment;
-    @Lob
-    @Column(name = "IMAGE")
-    private Serializable image;
     @Column(name = "CREATEDTIME")
     @Temporal(TemporalType.TIME)
     private Date createdtime;
-    @Column(name = "PRODUCT_ID")
-    private Integer productId;
     @Column(name = "CUSTOMER_ID")
     private Integer customerId;
 
     public ProductReview() {
     }
+    
+    
 
+    public ProductReview(Integer productReviewId, Integer ratingStart, String comment, Date createdtime, Integer customerId) {
+        this.productReviewId = productReviewId;
+        this.ratingStart = ratingStart;
+        this.comment = comment;
+        this.createdtime = createdtime;
+        this.customerId = customerId;
+    }
+
+    
+    
+    
     public ProductReview(Integer productReviewId) {
         this.productReviewId = productReviewId;
     }
@@ -90,28 +96,12 @@ public class ProductReview implements Serializable {
         this.comment = comment;
     }
 
-    public Serializable getImage() {
-        return image;
-    }
-
-    public void setImage(Serializable image) {
-        this.image = image;
-    }
-
     public Date getCreatedtime() {
         return createdtime;
     }
 
     public void setCreatedtime(Date createdtime) {
         this.createdtime = createdtime;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
     }
 
     public Integer getCustomerId() {

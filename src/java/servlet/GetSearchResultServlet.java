@@ -1,6 +1,7 @@
 
 package servlet;
 
+import entity.Customer;
 import entity.Inventory;
 import entity.Product;
 import entity.Staff;
@@ -84,6 +85,18 @@ public class GetSearchResultServlet extends HttpServlet {
 
             session.setAttribute("productSearchResults", results);
             response.sendRedirect("Public/Product_Search_Result.jsp");
+        } else if(table.equals("userTable")) {
+               List<Customer> results = new ArrayList<>();
+            List<Customer> customerList = getAllCustomer(request, response, session);
+            
+             for (Customer customerAll : customerList) {
+                if (customerAll.getName().toLowerCase().contains(queryFromSearch.toLowerCase()))
+                    results.add(customerAll);
+            }
+             
+              session.setAttribute("CustomerSearchResults", results);
+            response.sendRedirect("Staff/User_Search_Result.jsp");
+
         }
 
     }
@@ -171,6 +184,13 @@ public class GetSearchResultServlet extends HttpServlet {
         }
 
         return productListResult;
+    }
+    
+    public List<Customer> getAllCustomer (HttpServletRequest request, HttpServletResponse response, HttpSession session){
+         Query query = em.createNamedQuery("Customer.findAll");
+        List<Customer> customerList = query.getResultList();
+
+        return customerList;
     }
 
 
