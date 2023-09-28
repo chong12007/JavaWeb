@@ -1,0 +1,135 @@
+CREATE TABLE Manager (
+  Manager_id int,
+  name VarChar(50),
+  email VarChar(50) not null unique,
+  password VarChar(50) not null,
+  PRIMARY KEY (Manager_id)
+);
+
+
+CREATE TABLE Staff (
+  Staff_id int AUTO_INCREMENT,
+  username VarChar(50)  not null unique,
+  nickname VarChar(50),
+  password VarChar(50) not null,
+  Staff_Role VarChar(50) not null,
+  email VarChar(50)  ,
+  address VarChar(100),
+  phoneNumber VarChar(20),
+  Manager_id int,xxxxxxxxx
+  PRIMARY KEY (Staff_id),
+  FOREIGN KEY (Manager_id) REFERENCES Manager(Manager_id)
+);
+
+CREATE TABLE Product (
+  product_id int,
+  name VarChar(100) not null ,
+  price double,
+  description VarChar(500) ,
+  category VarChar(100) ,
+  status VarChar(50) ,
+  image Blob,
+  createdBy VarChar(50) ,
+  createdTime time,
+  updatedBy VarChar(50) ,
+  updatedTime time,
+  PRIMARY KEY (product_id)
+);
+
+
+CREATE TABLE inventory (
+  inventory_id int,
+  product_id int,
+  quantity int,
+  PRIMARY KEY (inventory_id),
+FOREIGN KEY (product_id) REFERENCES Product(product_id)
+);
+
+CREATE TABLE Customer (
+  customer_id int,
+  name VarChar(50) ,
+  email VarChar(100) not null unique,
+  password VarChar(50) not null,
+  phoneNumber VarChar(20) unique,
+  address VarChar(500)  ,
+  PRIMARY KEY (customer_id)
+);
+
+CREATE TABLE Cart (
+  cart_id int,
+  customer_id int,
+  PRIMARY KEY (cart_id),
+FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+);
+
+CREATE TABLE Cart_Product (
+  id int,
+  cart_id int,
+  product_id int,
+ quantity int,
+  price double,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE Purchase (
+  purchase_id int,
+  total_price double not null,
+  shipping_address VarChar(500) not null,
+  status VarChar(100),
+   purchase_history_product_id int,
+  customer_id int,
+   PRIMARY KEY (purchase_id)
+);
+
+
+CREATE TABLE Payment (
+  payment_id int,
+  payment_date time,
+  payment_method VarChar(50),
+  payment_amount double,
+  purchase_id int,
+ PRIMARY KEY (payment_id)
+);
+
+
+CREATE TABLE Product_Review (
+  Product_Review_id int,
+  Rating_start int,
+  comment VarChar(50),
+  createdTime time,
+  Customer_id int,
+   PRIMARY KEY (Product_Review_id)
+);
+
+CREATE TABLE PURCHASE_HISTORY (
+  purchase_history_id int,
+  product_id int,
+  name VarChar(100) not null ,
+  quantity int not null,
+  price double,
+  description VarChar(500) ,
+  purchasedDate time,
+   PRIMARY KEY (purchase_history_id)
+);
+
+CREATE TABLE Purchase_History_Product (
+id int,
+ purchase_history_product_id int,
+ purchase_id int,
+ purchase_history_id int,
+ PRIMARY KEY (id)
+);
+
+
+INSERT INTO NBUSER.MANAGER (MANAGER_ID, "NAME", EMAIL, PASSWORD) 
+	VALUES (1, 'Admin', 'admin@gmail.com', 'admin');
+
+INSERT INTO NBUSER.STAFF (STAFF_ID, USERNAME, NICKNAME, PASSWORD, STAFF_ROLE, EMAIL, ADDRESS, PHONENUMBER, MANAGER_ID) 
+	VALUES (101, 'staff1', NULL, 'staff', 'Security Role Manager', NULL, NULL, NULL, 1);
+
+
+INSERT INTO NBUSER.INVENTORY (INVENTORY_ID, PRODUCT_ID, QUANTITY) 
+	VALUES (1, 10001, 50);
+
+INSERT INTO NBUSER.CUSTOMER (CUSTOMER_ID, "NAME", EMAIL, PASSWORD, PHONENUMBER, ADDRESS) 
+	VALUES (1, 'chong', 'chong@gmail.com', 'abc123', '012-111-1234', 'jalan abc');
