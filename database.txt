@@ -8,7 +8,7 @@ CREATE TABLE Manager (
 
 
 CREATE TABLE Staff (
-  Staff_id int AUTO_INCREMENT,
+  Staff_id int,
   username VarChar(50)  not null unique,
   nickname VarChar(50),
   password VarChar(50) not null,
@@ -16,7 +16,7 @@ CREATE TABLE Staff (
   email VarChar(50)  ,
   address VarChar(100),
   phoneNumber VarChar(20),
-  Manager_id int,xxxxxxxxx
+  Manager_id int,
   PRIMARY KEY (Staff_id),
   FOREIGN KEY (Manager_id) REFERENCES Manager(Manager_id)
 );
